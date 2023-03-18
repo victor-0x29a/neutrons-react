@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import ResultComponent from "../../components/result";
 import BarComponent from "../../components/bar";
 
 const Formulario = styled.form`
@@ -31,7 +32,7 @@ const Formulario = styled.form`
     justify-content: center;
     align-items: center;
     h3 {
-      width: 400px;
+      width: 250px;
       text-align: center;
       font-size: 1.9rem;
       margin-bottom: 20px;
@@ -79,21 +80,61 @@ const Formulario = styled.form`
   }
 `;
 
+const SplitScreen = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const HomePage = () => {
+  const [resultado, setResultado] = useState(0);
+  const [mass, setMass] = useState(0);
+  const [atomic, setAtomic] = useState(0);
+  const [error, setError] = useState(false);
+  const handleMass = (e: string) => {
+    setMass(Number(e));
+  };
+  const handleAtomic = (e: string) => {
+    setAtomic(Number(e));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (mass < atomic) {
+      setError(true);
+      return;
+    }
+    setResultado(mass - atomic);
+    setError(false);
+    setMass(0);
+    setAtomic(0);
+  };
   return (
     <>
       <BarComponent />
-      <Formulario>
-        <label>
-          <h3>Massa</h3>
-          <input type="number" />
-        </label>
-        <label>
-          <h3>Numero atomico</h3>
-          <input type="number" />
-        </label>
-        <button>Calcular</button>
-      </Formulario>
+      <SplitScreen>
+        <Formulario onSubmit={handleSubmit}>
+          <label>
+            <h3>Massa</h3>
+            <input
+              type="number"
+              value={mass}
+              onChange={(e) => handleMass(e.target.value)}
+            />
+          </label>
+          <label>
+            <h3>Numero atomico</h3>
+            <input
+              type="number"
+              value={atomic}
+              onChange={(e) => {
+                handleAtomic(e.target.value);
+              }}
+            />
+          </label>
+          <button>Calcular</button>
+        </Formulario>
+        <ResultComponent result={resultado} />
+      </SplitScreen>
     </>
   );
 };
