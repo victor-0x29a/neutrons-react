@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import Neutron from "../assets/neutron.png";
@@ -6,6 +6,7 @@ import { Resultado } from "../types/result";
 
 const Awaiting = styled.div`
   width: 400px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,6 +25,8 @@ const Awaiting = styled.div`
     }
     @media screen and (max-width: 800px) {
       font-size: 2rem;
+      margin-left: 0px;
+      text-align: center;
     }
     @media screen and (max-width: 600px) {
       font-size: 1.75rem;
@@ -37,6 +40,9 @@ const Awaiting = styled.div`
     transition-duration: 300ms;
     &:hover {
       width: 160px;
+    }
+    @media screen and (max-width: 800px) {
+      margin-left: 0px;
     }
   }
   @keyframes Neutron {
@@ -65,6 +71,7 @@ const Awaiting = styled.div`
 
 const Response = styled.div`
   width: 400px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -83,9 +90,23 @@ const Response = styled.div`
     }
     @media screen and (max-width: 800px) {
       font-size: 2rem;
+      margin-left: 0px;
+      text-align: center;
     }
     @media screen and (max-width: 600px) {
       font-size: 1.75rem;
+    }
+  }
+  img {
+    margin-left: 100px;
+    margin-top: 20px;
+    width: 150px;
+    transition-duration: 300ms;
+    &:hover {
+      width: 160px;
+    }
+    @media screen and (max-width: 800px) {
+      margin-left: 0px;
     }
   }
   @keyframes Neutron {
@@ -109,6 +130,12 @@ const Family = styled.div`
 `;
 
 const ResultComponent = ({ result }: Resultado) => {
+  const Referencia = useRef<HTMLHeadingElement | null>(null);
+  useEffect(() => {
+    if (result !== 0) {
+      Referencia.current?.scrollIntoView(true);
+    }
+  }, [result]);
   return (
     <Family>
       {result === 0 ? (
@@ -120,9 +147,10 @@ const ResultComponent = ({ result }: Resultado) => {
         </Awaiting>
       ) : (
         <Response>
-          <h3>
+          <h3 ref={Referencia}>
             {result} <strong>N</strong>eutrons
           </h3>
+          <img src={Neutron} alt="Neutron" />
         </Response>
       )}
     </Family>

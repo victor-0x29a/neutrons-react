@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import ResultComponent from "../../components/result";
 import BarComponent from "../../components/bar";
@@ -52,13 +52,13 @@ const Formulario = styled.form`
     }
     @keyframes Neon {
       0% {
-        box-shadow: 0 0 5px aqua;
+        box-shadow: 0 -5px 5px aqua;
       }
       50% {
         box-shadow: 0 5px 8px aqua;
       }
       100% {
-        box-shadow: 0 0 5px aqua;
+        box-shadow: 0 -5px 5px aqua;
       }
     }
   }
@@ -83,34 +83,38 @@ const Formulario = styled.form`
 const SplitScreen = styled.div`
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+  }
 `;
 
 const HomePage = () => {
   const [resultado, setResultado] = useState(0);
   const [mass, setMass] = useState(0);
   const [atomic, setAtomic] = useState(0);
-  const [error, setError] = useState(false);
+  const Title = useRef<HTMLElement | null>(null);
   const handleMass = (e: string) => {
     setMass(Number(e));
   };
   const handleAtomic = (e: string) => {
     setAtomic(Number(e));
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (mass < atomic) {
-      setError(true);
       return;
     }
     setResultado(mass - atomic);
-    setError(false);
     setMass(0);
     setAtomic(0);
+    setTimeout(() => {
+      setResultado(0);
+      Title.current?.scrollIntoView(true);
+    }, 5 * 1000);
   };
   return (
     <>
-      <BarComponent />
+      <BarComponent reference={Title} />
       <SplitScreen>
         <Formulario onSubmit={handleSubmit}>
           <label>

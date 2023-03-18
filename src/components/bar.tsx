@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { BarProps } from "../types/bar";
 
 const Nav = styled.nav`
   display: flex;
@@ -50,9 +51,9 @@ const Nav = styled.nav`
   }
 `;
 
-const BarComponent = () => {
+const BarComponent = ({ reference }: BarProps) => {
   return (
-    <Nav>
+    <Nav ref={reference}>
       <strong>N</strong>
       <span>eutrons</span>
     </Nav>
