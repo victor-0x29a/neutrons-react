@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import ResultComponent from "../../components/result";
 import BarComponent from "../../components/bar";
+import FormulaComponent from "../../components/formula";
 
 const Formulario = styled.form`
   margin-top: 10vh;
@@ -139,6 +140,7 @@ const HomePage = () => {
         </Formulario>
         <ResultComponent result={resultado} />
       </SplitScreen>
+      <FormulaComponent />
     </>
   );
 };
